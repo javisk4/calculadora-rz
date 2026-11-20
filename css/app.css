@@ -1,5 +1,8 @@
 /* Calculadora de precios RZ · estilos (identidad del Sistema RZ, pensado para el teléfono) */
-@font-face{font-family:Montserrat;src:url("../fuentes/Montserrat-VF.ttf") format("truetype");font-weight:100 900;font-display:block}
+/* Montserrat recortada (solo pesos 500 y 800 y caracteres del español: ~27 KB en total).
+   swap: los textos se ven de inmediato con la fuente del sistema mientras llega Montserrat. */
+@font-face{font-family:Montserrat;src:url("../fuentes/montserrat-500.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Montserrat;src:url("../fuentes/montserrat-800.woff2") format("woff2");font-weight:800;font-display:swap}
 
 :root{color-scheme:light;
   --navy:#0F2A44;--navy2:#1b3d66;--steel:#5b7da8;--gray:#6b7480;--line:#d7dce3;--bg:#eef1f5;

@@ -2,11 +2,11 @@
    Al publicar una versión nueva, cambia VERSION: el teléfono baja la nueva y borra la anterior. */
 "use strict";
 
-const VERSION = "calcrz-v1";
+const VERSION = "calcrz-v2";       // v2: fuente recortada (carga mucho más rápida)
 const ARCHIVOS = [
   "./", "index.html", "manifest.webmanifest", "css/app.css", "js/calculo.js", "js/app.js",
-  "fuentes/Montserrat-VF.ttf", "iconos/rz.png", "iconos/icono-192.png", "iconos/icono-512.png",
-  "iconos/icono-maskable-512.png",
+  "fuentes/montserrat-500.woff2", "fuentes/montserrat-800.woff2",
+  "iconos/rz.png", "iconos/icono-192.png", "iconos/icono-512.png", "iconos/icono-maskable-512.png",
 ];
 
 self.addEventListener("install", e => {
