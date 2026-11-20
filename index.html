@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F2A44">
+<title>Calculadora RZ</title>
+<link rel="icon" href="iconos/rz.png" type="image/png">
+<link rel="apple-touch-icon" href="iconos/rz.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header>
+  <div class="lockup"><span class="mono" style="color:#fff">RZ<span class="dot"></span></span><span class="lw"><b>CALCULADORA</b><i>Precios de servicio</i></span></div>
+</header>
+
+<main>
+  <!-- ============ CALCULADORA ============ -->
+  <section class="pantalla on" id="pCalc">
+    <div class="card"><h2>Tipo de cliente</h2>
+      <div class="opciones c3" id="cCliente">
+        <button class="op" data-v="A"><b>A</b><small>Pudiente</small></button>
+        <button class="op" data-v="B"><b>B</b><small>Normal</small></button>
+        <button class="op" data-v="C"><b>C</b><small>Bajo</small></button>
+      </div>
+    </div>
+
+    <div class="card"><h2>Valor del equipo</h2>
+      <div class="opciones" id="cRango"></div>
+    </div>
+
+    <div class="card"><h2>Trabajo <small style="font-weight:400;color:var(--gray)">puedes marcar varios</small></h2>
+      <div id="cTrabajos"></div>
+    </div>
+
+    <div class="card"><h2>Repuestos <small style="font-weight:400;color:var(--gray)">costo real, con IVA</small></h2>
+      <div id="cRepuestos"></div>
+      <button class="btn ghost" id="cAddRep" style="width:100%">+ Agregar repuesto</button>
+      <div class="hint money" id="cSumaRep"></div>
+    </div>
+
+    <div class="card"><h2>Traslado</h2>
+      <input id="cTraslado" type="number" inputmode="numeric" min="0" step="500">
+    </div>
+
+    <div class="card res" id="cRes"></div>
+
+    <div class="card">
+      <label for="cNota">Nota (opcional)</label>
+      <input id="cNota" placeholder="Ej: nombre del cliente o del negocio">
+      <div class="fila" style="margin-top:10px"><button class="btn" id="cGuardar">Guardar</button><button class="btn sec" id="cLimpiar">Limpiar</button></div>
+    </div>
+  </section>
+
+  <!-- ============ HISTORIAL ============ -->
+  <section class="pantalla" id="pHist">
+    <h1>Historial</h1>
+    <div class="hint" style="margin:-6px 0 12px">Los últimos 10 cálculos guardados. Al guardar uno nuevo, el más antiguo se borra solo.</div>
+    <div id="hLista"></div>
+    <button class="btn peligro" id="hVaciar" style="width:100%;margin-top:8px">Vaciar historial</button>
+    <div class="aviso" id="hConfirmar" style="display:none;margin-top:10px">¿Borrar todo el historial? No se puede deshacer.
+      <div class="fila" style="margin-top:8px"><button class="btn peligro" id="hSi">Sí, borrar</button><button class="btn sec" id="hNo">Cancelar</button></div></div>
+  </section>
+
+  <!-- ============ CONFIGURACIÓN ============ -->
+  <section class="pantalla" id="pCfg">
+    <h1>Configuración</h1>
+    <div class="hint" style="margin:-6px 0 12px" id="gEstado">Los cambios se guardan solos en este teléfono.</div>
+
+    <div class="card"><h2>Margen de repuestos</h2>
+      <div class="g3" id="gMargen"></div>
+      <div class="hint">Se suma al costo real de los repuestos según el tipo de cliente.</div>
+    </div>
+
+    <div class="card"><h2>Ajuste de mano de obra por cliente</h2>
+      <div class="g3" id="gAjCli"></div>
+      <div class="hint">Puede ser negativo (descuento), por ejemplo −10.</div>
+    </div>
+
+    <div class="card"><h2>Ajuste de mano de obra por valor del equipo</h2>
+      <div id="gRangos"></div>
+    </div>
+
+    <div class="card"><h2>Trabajos y mano de obra <small style="font-weight:400;color:var(--gray)">precio fijo, con IVA</small></h2>
+      <div id="gTrabajos"></div>
+      <button class="btn ghost" id="gAddTrab" style="width:100%">+ Agregar trabajo</button>
+    </div>
+
+    <div class="card"><h2>Otros</h2>
+      <div class="fila">
+        <div><label for="gTraslado">Traslado por defecto (₡)</label><input id="gTraslado" type="number" inputmode="numeric" min="0" step="500"></div>
+        <div><label for="gRedondeo">Redondeo del total</label><select id="gRedondeo"><option value="0">Sin redondeo</option><option value="100">A ₡100</option><option value="500">A ₡500</option><option value="1000">A ₡1 000</option></select></div>
+      </div>
+    </div>
+
+    <div class="card"><h2>Respaldo de la configuración</h2>
+      <div class="fila"><button class="btn sec" id="gExportar">Exportar</button><button class="btn sec" id="gImportar">Importar</button></div>
+      <input type="file" id="gArchivo" accept=".json,application/json" style="display:none">
+      <div class="hint">«Exportar» crea un archivo con márgenes, ajustes y trabajos para guardarlo en Drive. «Importar» lo carga en este teléfono (por ejemplo, en un teléfono nuevo). El historial no se incluye.</div>
+      <div class="aviso" id="gImpConfirmar" style="display:none;margin-top:10px"><span id="gImpTxt"></span>
+        <div class="fila" style="margin-top:8px"><button class="btn" id="gImpSi">Reemplazar</button><button class="btn sec" id="gImpNo">Cancelar</button></div></div>
+    </div>
+
+    <button class="btn sec" id="gRestablecer" style="width:100%">Restablecer valores iniciales</button>
+    <div class="aviso" id="gConfirmar" style="display:none;margin-top:10px">Se reemplaza toda la configuración (márgenes, ajustes y trabajos) por los valores iniciales.
+      <div class="fila" style="margin-top:8px"><button class="btn peligro" id="gSi">Restablecer</button><button class="btn sec" id="gNo">Cancelar</button></div></div>
+  </section>
+</main>
+
+<div class="barra">
+  <div class="total"><span>Total <small style="color:var(--gray);font-weight:400">IVA incluido</small></span><b id="bTotal">₡0</b></div>
+  <nav>
+    <button data-p="pCalc" class="on"><span>🧮</span>Calculadora</button>
+    <button data-p="pHist"><span>🕘</span>Historial</button>
+    <button data-p="pCfg"><span>⚙</span>Configuración</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="js/calculo.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
